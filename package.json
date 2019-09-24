@@ -1,14 +1,17 @@
 {
-  "name": "hologram-image-upload",
+  "name": "arts-hologram-image-upload",
   "version": "2.7.6",
-  "author": "Mr.Twister<sardo.ip@sardo.work>",
+  "author": "Mr.Twister an Arts",
   "license": "MIT",
   "description": "React image uploader with dropzone and cropper function",
-  "repository": "https://github.com/dollars0427/hologram-image-upload",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtsrunKar/arts-hologram-image-upload"
+  },
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/gulp",
-    "watch": "./node_modules/.bin/gulp watch"
+    "build": "gulp",
+    "watch": "gulp watch"
   },
   "devDependencies": {
     "babel": "6.5.2",
@@ -49,5 +52,14 @@
   },
   "peerDependencies": {
     "react": "^16.1.1"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/ArtsrunKar/arts-hologram-image-upload/issues"
+  },
+  "homepage": "https://github.com/dollars0427/hologram-image-upload#readme",
+  "keywords": [
+    "npm",
+    "artshologram",
+    "upload-image"
+  ]
 }
