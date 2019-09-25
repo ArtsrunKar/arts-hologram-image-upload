@@ -11,19 +11,20 @@ import PropTypes from 'prop-types';
 import ModalCom from './Modal';
 import LoadModalCom from './LoadModal';
 import DropIcon from '../images/drop.png';
-import '../css/Hologram.scss';
+// import '../css/Hologram.scss';
+// import '../../dist/styles.css';
 
 const disableClick = true;
 
 // Convert Blob to Data Url
-function convertBlobToUrl(file) {
-  return new Promise((resolve) => {
+const convertBlobToUrl = file =>
+  new Promise((resolve) => {
     const image = new Image();
     const canvas = document.createElement('canvas');
     const canvasContext = canvas.getContext('2d');
     image.src = file.preview;
     image.crossOrigin = 'anonymous';
-    image.onload = function () {
+    image.onload = () => {
       // Get image information
       canvas.width = image.width;
       canvas.height = image.height;
@@ -42,17 +43,16 @@ function convertBlobToUrl(file) {
       resolve(newFile);
     };
   });
-}
 
 // Convert Image Url to Blob
-function convertUrlToBlob(file) {
-  return new Promise((resolve) => {
+const convertUrlToBlob = file =>
+  new Promise((resolve) => {
     const image = new Image();
     const canvas = document.createElement('canvas');
     const canvasContext = canvas.getContext('2d');
     image.src = file.url;
     image.crossOrigin = 'anonymous';
-    image.onload = function () {
+    image.onload = () => {
       // Get image information
       canvas.width = image.width;
       canvas.height = image.height;
@@ -62,7 +62,9 @@ function convertUrlToBlob(file) {
         const imagefile = {
           name: file.name,
           size: image.filesize,
-          key: Math.random().toString(36).substring(1),
+          key: Math.random()
+            .toString(36)
+            .substring(1),
           preview: imagePreview,
           origin: imagePreview,
           type: file.type,
@@ -71,7 +73,6 @@ function convertUrlToBlob(file) {
       }, file.type);
     };
   });
-}
 
 class Hologram extends React.Component {
   static propTypes = {
@@ -101,7 +102,7 @@ class Hologram extends React.Component {
         color: '#fff',
       },
     },
-  }
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -125,12 +126,12 @@ class Hologram extends React.Component {
         funList.push(convertUrlToBlob(defaultFile));
       }
       Promise.all(funList)
-      .then((files) => {
-        this.setState({ files });
-      })
-      .catch((err) => {
-        console.log('There are some error!', err);
-      });
+        .then((files) => {
+          this.setState({ files });
+        })
+        .catch((err) => {
+          console.log('There are some error!', err);
+        });
     }
   }
   onOpenClick() {
@@ -142,7 +143,9 @@ class Hologram extends React.Component {
     for (const acceptedFile of acceptedFiles) {
       const file = {
         name: acceptedFile.name,
-        key: Math.random().toString(36).substring(1),
+        key: Math.random()
+          .toString(36)
+          .substring(1),
         size: acceptedFile.size,
         preview: acceptedFile.preview,
         origin: acceptedFile.preview,
@@ -160,7 +163,7 @@ class Hologram extends React.Component {
   }
   onUpdate(updateFile) {
     const files = this.state.files;
-    const fileIndex = files.findIndex((file => file.key === updateFile.key));
+    const fileIndex = files.findIndex(file => file.key === updateFile.key);
     files[fileIndex] = updateFile;
     this.setState({ files });
   }
@@ -181,14 +184,14 @@ class Hologram extends React.Component {
     }
 
     Promise.all(funList)
-    .then((res) => {
-      this.setState({ uploading: false });
-      this.props.onComplete({ response: res, files: uploadedFile });
-    })
-    .catch((err) => {
-      console.log('There are some error!', err);
-      this.setState({ uploading: false });
-    });
+      .then((res) => {
+        this.setState({ uploading: false });
+        this.props.onComplete({ response: res, files: uploadedFile });
+      })
+      .catch((err) => {
+        console.log('There are some error!', err);
+        this.setState({ uploading: false });
+      });
   }
 
   // Open dropzone without click dropzone
@@ -206,16 +209,18 @@ class Hologram extends React.Component {
   upload(file) {
     const uploader = this.props.uploader;
     return new Promise((resolve, reject) => {
-      convertBlobToUrl(file)
-      .then((newFile) => {
+      convertBlobToUrl(file).then((newFile) => {
         const data = JSON.stringify(newFile);
-        request.post(uploader).send(data).end((err, res) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-          resolve(res);
-        });
+        request
+          .post(uploader)
+          .send(data)
+          .end((err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+            resolve(res);
+          });
       });
     });
   }
@@ -223,8 +228,7 @@ class Hologram extends React.Component {
   customUpload(file) {
     const uploaderFunc = this.props.uploadFunction;
     return new Promise((resolve, reject) => {
-      convertBlobToUrl(file)
-      .then((newFile) => {
+      convertBlobToUrl(file).then((newFile) => {
         uploaderFunc(file, newFile)
           .then((res) => {
             resolve(res);
@@ -237,19 +241,19 @@ class Hologram extends React.Component {
   render() {
     return (
       <div className="dropzone-wrapper">
-        <LoadModalCom
-          uploading={this.state.uploading}
-        />
+        <LoadModalCom uploading={this.state.uploading} />
         <div className="dropzone">
           <Dropzone
-            {... this.props.dropzoneConfig}
-            ref={(node) => { this.dropzone = node; }}
+            {...this.props.dropzoneConfig}
+            ref={(node) => {
+              this.dropzone = node;
+            }}
             onDrop={this.onDrop}
             disableClick={disableClick}
           >
-            {this.state.files.length > 0 ?
+            {this.state.files.length > 0 ? (
               <div className="images-area">
-                { this.state.files.length < this.props.maxFiles || this.props.maxFiles === -1 ?
+                {this.state.files.length < this.props.maxFiles || this.props.maxFiles === -1 ? (
                   <div>
                     <button className="hologram-btn" type="button" onClick={this.onOpenZone}>
                       Select a photo from our computer
@@ -258,7 +262,7 @@ class Hologram extends React.Component {
                       <p>OR</p>
                     </div>
                   </div>
-                  : null }
+                ) : null}
                 <div className="clearfix" />
                 <div className="images-list">
                   <div className="images">
@@ -270,14 +274,14 @@ class Hologram extends React.Component {
                         cropperConfig={this.props.cropperConfig}
                         cropperUpdate={this.onUpdate}
                       />
-                      ))}
+                    ))}
                   </div>
-                  { this.state.files.length < this.props.maxFiles || this.props.maxFiles === -1 ?
+                  {this.state.files.length < this.props.maxFiles || this.props.maxFiles === -1 ? (
                     <div className="dropzone-tips">
                       Drop photo heres
-                      <img className="dropfile-icon" alt="Drop photos"src={DropIcon} />
+                      <img className="dropfile-icon" alt="Drop photos" src={DropIcon} />
                     </div>
-                    : null }
+                  ) : null}
                 </div>
                 <div className="upload-button-wrapper">
                   <button className="hologram-btn upload-btn" type="button" onClick={this.onUpload}>
@@ -285,19 +289,20 @@ class Hologram extends React.Component {
                   </button>
                 </div>
               </div>
-               : <div className="images-area">
-                 <button className="hologram-btn" type="button" onClick={this.onOpenClick}>
-                    Select a photo from our computer
-                 </button>
-                 <div>
-                   <p>OR</p>
-                   <div className="dropzone-tips">
-                     Drop photo heres
-                     <img className="dropfile-icon" alt="Drop photos"src={DropIcon} />
-                   </div>
-                 </div>
-               </div>
-              }
+            ) : (
+              <div className="images-area">
+                <button className="hologram-btn" type="button" onClick={this.onOpenClick}>
+                  Select a photo from our computer
+                </button>
+                <div>
+                  <p>OR</p>
+                  <div className="dropzone-tips">
+                    Drop photo heres
+                    <img className="dropfile-icon" alt="Drop photos" src={DropIcon} />
+                  </div>
+                </div>
+              </div>
+            )}
           </Dropzone>
         </div>
       </div>
