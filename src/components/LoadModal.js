@@ -44,9 +44,7 @@ class LoadModalCom extends React.Component {
         <Modal show={this.state.open} onHide={() => this.onCloseModal()} aria-labelledby="message">
           <Modal.Body id="message">
             <div className="loader" />
-            <div>
-              Images uploading, please wait.....
-            </div>
+            <div>Images uploading, please wait.....</div>
           </Modal.Body>
         </Modal>
       </div>

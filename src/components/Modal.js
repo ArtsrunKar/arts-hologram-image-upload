@@ -57,7 +57,7 @@ class ModalCom extends React.Component {
   render() {
     return (
       <div className="dropzone-image">
-        <div tabIndex="-1" role="button" className="remove-icon" onClick={() => this.handleClick()} >
+        <div tabIndex="-1" role="button" className="remove-icon" onClick={() => this.handleClick()}>
           <div className="remove-text">✖</div>
         </div>
         <div
@@ -68,12 +68,16 @@ class ModalCom extends React.Component {
           onMouseEnter={this.handleMouseHover}
           onMouseLeave={this.handleMouseHover}
         >
-          {this.state.isHover ?
+          {this.state.isHover ? (
             <img alt="crop" className="cropper-icon" src={CropperIcon} />
-            : null }
+          ) : null}
           <img alt="file preview" className="preview" src={this.props.file.preview} />
         </div>
-        <Modal show={this.state.open} onHide={() => this.onCloseModal()} aria-labelledby="ModalHeader">
+        <Modal
+          show={this.state.open}
+          onHide={() => this.onCloseModal()}
+          aria-labelledby="ModalHeader"
+        >
           <Modal.Header closeButton>
             <Modal.Title id="ModalHeader">Crop your images here.</Modal.Title>
           </Modal.Header>

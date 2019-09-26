@@ -92,8 +92,11 @@ class CropperCom extends React.Component {
           onComplete={this.onComplete}
           src={this.props.src}
         />
-        <br /><br />
-        <button className="crop-button" type="button" onClick={this.crop}>Save</button>
+        <br />
+        <br />
+        <button className="crop-button" type="button" onClick={this.crop}>
+          Save
+        </button>
       </div>
     );
   }
