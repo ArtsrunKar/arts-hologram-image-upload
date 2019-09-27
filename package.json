@@ -1,6 +1,6 @@
 {
   "name": "arts-hologram-image-upload",
-  "version": "2.7.10",
+  "version": "2.7.11",
   "author": "Mr.Twister an Arts",
   "license": "MIT",
   "description": "React image uploader with dropzone and cropper function",

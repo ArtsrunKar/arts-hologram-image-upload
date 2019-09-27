@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import ModalCom from './Modal';
 import LoadModalCom from './LoadModal';
 import DropIcon from '../images/drop.png';
+import '../../dist/styles.scss';
 
 const disableClick = true;
 
