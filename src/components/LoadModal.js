@@ -5,7 +5,7 @@ jsx-a11y/no-noninteractive-element-interactions: 'off'
 */
 
 import React from 'react';
-import Modal from 'react-bootstrap-modal';
+import Modal from 'arts-react-bootstrap-modal';
 import PropTypes from 'prop-types';
 
 class LoadModalCom extends React.Component {
