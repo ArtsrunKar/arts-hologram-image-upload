@@ -2,5 +2,8 @@
   "scripts": {
     "build": "../node_modules/.bin/gulp",
     "watch": "../node_modules/.bin/gulp watch"
+  },
+  "dependencies": {
+    "react-bootstrap-modal": "^4.2.0"
   }
 }

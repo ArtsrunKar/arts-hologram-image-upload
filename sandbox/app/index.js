@@ -5,8 +5,8 @@ import Hologram from '../../src/components/Hologram';
 window.hologram = function (element, option) {
   ReactDOM.render(
     <div>
-      <Hologram {... option}/>
+      <Hologram {...option} />
     </div>,
-    element
+    element,
   );
-}
+};

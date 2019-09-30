@@ -2,7 +2,7 @@
   @import '~react-image-crop/dist/ReactCrop.css';
   @import '~arts-react-bootstrap-modal/lib/css/rbm-complete.css';
 
-  .modals {
+  .btsModal {
     text-align: center;
     padding: 0 !important;
 
@@ -27,7 +27,7 @@
     }
   }
 
-  .modals:before {
+  .btsModal:before {
     content: '';
     display: inline-block;
     height: 100%;
@@ -35,7 +35,7 @@
     margin-right: -4px;
   }
 
-  .modals-dialog {
+  .btsModal-dialog {
     display: inline-block;
     text-align: left;
     vertical-align: middle;
@@ -83,7 +83,7 @@
   border: 0;
 }
 
-/** Message modals **/
+/** Message btsModal **/
 #message {
   font-size: 24px;
   text-align: center;
@@ -238,7 +238,7 @@
       transition: all 0.3s;
     }
   }
-// }
+}
 
 @charset "UTF-8";
 .ReactCrop {
@@ -509,11 +509,11 @@ button.close {
   -webkit-appearance: none;
 }
 
-.modals-open {
+.btsModal-open {
   overflow: hidden;
 }
 
-.modals {
+.btsModal {
   display: none;
   overflow: hidden;
   position: fixed;
@@ -526,7 +526,7 @@ button.close {
   outline: 0;
 }
 
-.modals.fade .modals-dialog {
+.btsModal.fade .btsModal-dialog {
   -webkit-transform: translate(0, -25%);
   -ms-transform: translate(0, -25%);
   -o-transform: translate(0, -25%);
@@ -537,25 +537,25 @@ button.close {
   transition: transform 0.3s ease-out;
 }
 
-.modals.in .modals-dialog {
+.btsModal.in .btsModal-dialog {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   -o-transform: translate(0, 0);
   transform: translate(0, 0);
 }
 
-.modals-open .modals {
+.btsModal-open .btsModal {
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-.modals-dialog {
+.btsModal-dialog {
   position: relative;
   width: auto;
   margin: 10px;
 }
 
-.modals-content {
+.btsModal-content {
   position: relative;
   background-color: #fff;
   border: 1px solid #999;
@@ -567,7 +567,7 @@ button.close {
   outline: 0;
 }
 
-.modals-backdrop {
+.modal-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -577,71 +577,71 @@ button.close {
   background-color: #000;
 }
 
-.modals-backdrop.fade {
+.modal-backdrop.fade {
   opacity: 0;
   filter: alpha(opacity=0);
 }
 
-.modals-backdrop.in {
+.modal-backdrop.in {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
 
-.modals-header {
+.btsModal-header {
   padding: 15px;
   border-bottom: 1px solid #e5e5e5;
   min-height: 16.42857143px;
 }
 
-.modals-header .close {
+.btsModal-header .close {
   margin-top: -2px;
 }
 
-.modals-title {
+.btsModal-title {
   margin: 0;
   line-height: 1.42857143;
 }
 
-.modals-body {
+.btsModal-body {
   position: relative;
   padding: 15px;
 }
 
-.modals-footer {
+.btsModal-footer {
   padding: 15px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }
 
-.modals-footer .btn + .btn {
+.btsModal-footer .btn + .btn {
   margin-left: 5px;
   margin-bottom: 0;
 }
 
-.modals-footer .btn-group .btn + .btn {
+.btsModal-footer .btn-group .btn + .btn {
   margin-left: -1px;
 }
 
-.modals-footer .btn-block + .btn-block {
+.btsModal-footer .btn-block + .btn-block {
   margin-left: 0;
 }
 
 @media (min-width: 768px) {
-  .modals-dialog {
+  .btsModal-dialog {
     width: 600px;
     margin: 30px auto;
   }
-  .modals-content {
+  .btsModal-content {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
-  .modals-sm {
+  .btsModal-sm {
     width: 300px;
   }
 }
 
 @media (min-width: 992px) {
-  .modals-lg {
+  .btsModal-lg {
     width: 900px;
   }
 }
@@ -748,24 +748,24 @@ Copyright (c) 2012 Dan Eden*/
   animation-name: shake;
 }
 
-.modals {
+.btsModal {
   display: block;
 }
 
-.modals-content > .close {
+.btsModal-content > .close {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
 @media (min-width: 768px) {
-  .modals-sm > .modals-dialog {
+  .btsModal-sm > .btsModal-dialog {
     width: 300px;
   }
 }
 
 @media (min-width: 992px) {
-  .modals-lg > .modals-dialog {
+  .btsModal-lg > .btsModal-dialog {
     width: 900px;
   }
 }
@@ -810,12 +810,12 @@ Copyright (c) 2012 Dan Eden*/
   border: 0;
 }
 
-.modals {
+.btsModal {
   text-align: center;
   padding: 0 !important;
 }
 
-.modals .loader {
+.btsModal .loader {
   margin-left: auto;
   margin-right: auto;
   border: 5px solid #f3f3f3;
@@ -835,7 +835,7 @@ Copyright (c) 2012 Dan Eden*/
   }
 }
 
-.modals:before {
+.btsModal:before {
   content: '';
   display: inline-block;
   height: 100%;
@@ -843,13 +843,13 @@ Copyright (c) 2012 Dan Eden*/
   margin-right: -4px;
 }
 
-.modals-dialog {
+.btsModal-dialog {
   display: inline-block;
   text-align: left;
   vertical-align: middle;
 }
 
-/** Message modals **/
+/** Message btsModal **/
 #message {
   font-size: 24px;
   text-align: center;
