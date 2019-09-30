@@ -2,7 +2,7 @@
   @import '~react-image-crop/dist/ReactCrop.css';
   @import '~react-bootstrap-modal/lib/css/rbm-complete.css';
 
-  .modal {
+  .modals {
     text-align: center;
     padding: 0 !important;
 
@@ -27,7 +27,7 @@
     }
   }
 
-  .modal:before {
+  .modals:before {
     content: '';
     display: inline-block;
     height: 100%;
@@ -35,7 +35,7 @@
     margin-right: -4px;
   }
 
-  .modal-dialog {
+  .modals-dialog {
     display: inline-block;
     text-align: left;
     vertical-align: middle;
@@ -83,7 +83,7 @@
   border: 0;
 }
 
-/** Message modal **/
+/** Message modals **/
 #message {
   font-size: 24px;
   text-align: center;
@@ -238,4 +238,771 @@
       transition: all 0.3s;
     }
   }
+// }
+
+@charset "UTF-8";
+.ReactCrop {
+  position: relative;
+  display: inline-block;
+  cursor: crosshair;
+  overflow: hidden;
+  max-width: 100%;
+  background-color: #000;
+}
+
+.ReactCrop:focus {
+  outline: none;
+}
+
+.ReactCrop--disabled {
+  cursor: inherit;
+}
+
+.ReactCrop__image {
+  display: block;
+  max-width: 100%;
+}
+
+.ReactCrop--crop-invisible .ReactCrop__image {
+  opacity: 0.5;
+}
+
+.ReactCrop__crop-selection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate3d(0, 0, 0);
+  box-sizing: border-box;
+  cursor: move;
+  box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);
+  border: 1px solid;
+  border-image-source: url('data:image/gif;base64,R0lGODlhCgAKAJECAAAAAP///////wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OEI5RDc5MTFDNkE2MTFFM0JCMDZEODI2QTI4MzJBOTIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OEI5RDc5MTBDNkE2MTFFM0JCMDZEODI2QTI4MzJBOTIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4MDgzQzNDMjA5MzREQ0ZDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjAyODAxMTc0MDcyMDY4MTE4MDgzQzNDMjA5MzREQ0ZDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEBQoAAgAsAAAAAAoACgAAAhWEERkn7W3ei7KlagMWF/dKgYeyGAUAIfkEBQoAAgAsAAAAAAoACgAAAg+UYwLJ7RnQm7QmsCyVKhUAIfkEBQoAAgAsAAAAAAoACgAAAhCUYgLJHdiinNSAVfOEKoUCACH5BAUKAAIALAAAAAAKAAoAAAIRVISAdusPo3RAzYtjaMIaUQAAIfkEBQoAAgAsAAAAAAoACgAAAg+MDiem7Q8bSLFaG5il6xQAIfkEBQoAAgAsAAAAAAoACgAAAg+UYRLJ7QnQm7SmsCyVKhUAIfkEBQoAAgAsAAAAAAoACgAAAhCUYBLJDdiinNSEVfOEKoECACH5BAUKAAIALAAAAAAKAAoAAAIRFISBdusPo3RBzYsjaMIaUQAAOw==');
+  border-image-slice: 1;
+  border-image-repeat: repeat;
+}
+
+.ReactCrop--disabled .ReactCrop__crop-selection {
+  cursor: inherit;
+}
+
+.ReactCrop__drag-handle {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  outline: 1px solid transparent;
+}
+
+.ReactCrop .ord-nw {
+  top: 0;
+  left: 0;
+  margin-top: -5px;
+  margin-left: -5px;
+  cursor: nw-resize;
+}
+
+.ReactCrop .ord-n {
+  top: 0;
+  left: 50%;
+  margin-top: -5px;
+  margin-left: -5px;
+  cursor: n-resize;
+}
+
+.ReactCrop .ord-ne {
+  top: 0;
+  right: 0;
+  margin-top: -5px;
+  margin-right: -5px;
+  cursor: ne-resize;
+}
+
+.ReactCrop .ord-e {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  margin-right: -5px;
+  cursor: e-resize;
+}
+
+.ReactCrop .ord-se {
+  bottom: 0;
+  right: 0;
+  margin-bottom: -5px;
+  margin-right: -5px;
+  cursor: se-resize;
+}
+
+.ReactCrop .ord-s {
+  bottom: 0;
+  left: 50%;
+  margin-bottom: -5px;
+  margin-left: -5px;
+  cursor: s-resize;
+}
+
+.ReactCrop .ord-sw {
+  bottom: 0;
+  left: 0;
+  margin-bottom: -5px;
+  margin-left: -5px;
+  cursor: sw-resize;
+}
+
+.ReactCrop .ord-w {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  margin-left: -5px;
+  cursor: w-resize;
+}
+
+.ReactCrop__disabled .ReactCrop__drag-handle {
+  cursor: inherit;
+}
+
+.ReactCrop__drag-bar {
+  position: absolute;
+}
+
+.ReactCrop__drag-bar.ord-n {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  margin-top: -3px;
+}
+
+.ReactCrop__drag-bar.ord-e {
+  right: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  margin-right: -3px;
+}
+
+.ReactCrop__drag-bar.ord-s {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  margin-bottom: -3px;
+}
+
+.ReactCrop__drag-bar.ord-w {
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  margin-left: -3px;
+}
+
+.ReactCrop--new-crop .ReactCrop__drag-bar,
+.ReactCrop--new-crop .ReactCrop__drag-handle,
+.ReactCrop--fixed-aspect .ReactCrop__drag-bar {
+  display: none;
+}
+
+.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-n,
+.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-e,
+.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-s,
+.ReactCrop--fixed-aspect .ReactCrop__drag-handle.ord-w {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .ReactCrop__drag-handle {
+    width: 17px;
+    height: 17px;
+  }
+  .ReactCrop .ord-nw {
+    margin-top: -9px;
+    margin-left: -9px;
+  }
+  .ReactCrop .ord-n {
+    margin-top: -9px;
+    margin-left: -9px;
+  }
+  .ReactCrop .ord-ne {
+    margin-top: -9px;
+    margin-right: -9px;
+  }
+  .ReactCrop .ord-e {
+    margin-top: -9px;
+    margin-right: -9px;
+  }
+  .ReactCrop .ord-se {
+    margin-bottom: -9px;
+    margin-right: -9px;
+  }
+  .ReactCrop .ord-s {
+    margin-bottom: -9px;
+    margin-left: -9px;
+  }
+  .ReactCrop .ord-sw {
+    margin-bottom: -9px;
+    margin-left: -9px;
+  }
+  .ReactCrop .ord-w {
+    margin-top: -9px;
+    margin-left: -9px;
+  }
+  .ReactCrop__drag-bar.ord-n {
+    height: 14px;
+    margin-top: -7px;
+  }
+  .ReactCrop__drag-bar.ord-e {
+    width: 14px;
+    margin-right: -7px;
+  }
+  .ReactCrop__drag-bar.ord-s {
+    height: 14px;
+    margin-bottom: -7px;
+  }
+  .ReactCrop__drag-bar.ord-w {
+    width: 14px;
+    margin-left: -7px;
+  }
+}
+
+/* Licensed MIT; Copyright (c) 2011-2014 Twitter, Inc <https://github.com/twbs/bootstrap/blob/master/LICENSE> */
+/* Licensed MIT; Copyright (c) 2011-2014 Twitter, Inc <https://github.com/twbs/bootstrap/blob/master/LICENSE> */
+/* Licensed MIT; Copyright (c) 2011-2014 Twitter, Inc <https://github.com/twbs/bootstrap/blob/master/LICENSE> */
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  -o-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+
+.fade.in {
+  opacity: 1;
+}
+
+.close {
+  float: right;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+button.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
+
+.modals-open {
+  overflow: hidden;
+}
+
+.modals {
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+
+.modals.fade .modals-dialog {
+  -webkit-transform: translate(0, -25%);
+  -ms-transform: translate(0, -25%);
+  -o-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -moz-transition: -moz-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+}
+
+.modals.in .modals-dialog {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+.modals-open .modals {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modals-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+
+.modals-content {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
+  outline: 0;
+}
+
+.modals-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+
+.modals-backdrop.fade {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.modals-backdrop.in {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+.modals-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  min-height: 16.42857143px;
+}
+
+.modals-header .close {
+  margin-top: -2px;
+}
+
+.modals-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+
+.modals-body {
+  position: relative;
+  padding: 15px;
+}
+
+.modals-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+
+.modals-footer .btn + .btn {
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+
+.modals-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+
+.modals-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  .modals-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .modals-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+  .modals-sm {
+    width: 300px;
+  }
+}
+
+@media (min-width: 992px) {
+  .modals-lg {
+    width: 900px;
+  }
+}
+
+/*
+Animate.css - http://daneden.me/animate
+Licensed under the ☺ license (http://licence.visualidiot.com/)
+Copyright (c) 2012 Dan Eden*/
+.animated {
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes shake {
+  0%,
+  100% {
+    -webkit-transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translateX(10px);
+  }
+}
+
+@-moz-keyframes shake {
+  0%,
+  100% {
+    -moz-transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -moz-transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    -moz-transform: translateX(10px);
+  }
+}
+
+@-o-keyframes shake {
+  0%,
+  100% {
+    -o-transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -o-transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    -o-transform: translateX(10px);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+.shake {
+  -webkit-animation-name: shake;
+  -moz-animation-name: shake;
+  -o-animation-name: shake;
+  animation-name: shake;
+}
+
+.modals {
+  display: block;
+}
+
+.modals-content > .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media (min-width: 768px) {
+  .modals-sm > .modals-dialog {
+    width: 300px;
+  }
+}
+
+@media (min-width: 992px) {
+  .modals-lg > .modals-dialog {
+    width: 900px;
+  }
+}
+
+/** Common Element **/
+.text-center {
+  text-align: center;
+}
+
+.hologram-btn {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+}
+
+.crop-button {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background-color: #f78500;
+  border: 1px solid white;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+}
+
+.upload-btn {
+  background-color: #f78500;
+  border: 0;
+}
+
+.modals {
+  text-align: center;
+  padding: 0 !important;
+}
+
+.modals .loader {
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.modals:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modals-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/** Message modals **/
+#message {
+  font-size: 24px;
+  text-align: center;
+}
+
+#message .loading-icon {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#message .loading-icon img {
+  display: block;
+  max-width: 100%;
+}
+
+/** dropzone **/
+.dropzone {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.dropzone .hologram-btn {
+  display: inline-block;
+  margin-right: 1em;
+}
+
+@media screen and (max-width: 768px) {
+  .dropzone .hologram-btn {
+    margin-right: auto;
+  }
+}
+
+.dropzone .upload-button-wrapper {
+  text-align: right;
+  margin-right: 80px;
+}
+
+@media screen and (max-width: 768px) {
+  .dropzone .upload-button-wrapper {
+    text-align: center;
+    margin-right: auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dropzone .images-area p {
+    display: none;
+  }
+}
+
+.dropzone .images-list {
+  border: 3px dashed #fff;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 1em;
+  padding: 1em;
+}
+
+@media screen and (max-width: 768px) {
+  .dropzone .images-list {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+}
+
+.dropzone .images {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dropzone .dropzone-tips {
+  margin-top: 1.5em;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #717171;
+}
+
+@media screen and (max-width: 768px) {
+  .dropzone .dropzone-tips {
+    display: none;
+  }
+}
+
+.dropzone .dropzone-tips .dropfile-icon {
+  margin-left: 1em;
+}
+
+.dropzone .dropzone-image {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-left: 1em;
+  display: inline-block;
+  border: 3px dashed #fff;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 1em;
+}
+
+.dropzone .dropzone-image .remove-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 17px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 25px;
+  height: 26px;
+  color: #fff;
+  background-color: #000;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  border: 2px solid;
+  z-index: 999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.dropzone .dropzone-image .remove-icon:hover {
+  color: black;
+  background-color: white;
+}
+
+.dropzone .dropzone-image .cropper-icon {
+  margin: auto;
+  position: absolute;
+  z-index: 10;
+  top: 35%;
+  left: 0;
+  right: 0;
+  width: 50px;
+}
+
+.dropzone .dropzone-image .image-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.dropzone .dropzone-image .image-wrapper:hover .preview {
+  opacity: 0.5;
+}
+
+.dropzone .dropzone-image .preview {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }

@@ -46,7 +46,7 @@
     "blueimp-canvas-to-blob": "^3.14.0",
     "core-js": "^2.5.1",
     "prop-types": "^15.6.0",
-    "react-bootstrap-modal": "^4.0.0",
+    "arts-react-bootstrap-modal": "^4.0.0",
     "react-dropzone": "^4.2.2",
     "react-image-crop": "^3.0.8",
     "superagent": "3.7.0"
