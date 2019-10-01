@@ -206,6 +206,10 @@
         background-color: white;
       }
     }
+    .remove-text {
+      cursor: pointer;
+      margin-top: 1px;
+    }
 
     .cropper-icon {
       margin: auto;
@@ -220,6 +224,7 @@
     .image-wrapper {
       width: 100%;
       height: 100%;
+      cursor: pointer;
 
       &:hover {
         .preview {
